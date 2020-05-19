@@ -13,6 +13,19 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Molecular Biologi Marker
+
+Pemuliaan tanaman adalah suatu kegiatan mengubah susunan genetik individu tanaman untuk suatu tujuan seperti perbaikin mutu tanaman. Tujuan semacam itu dapat berupa, perbaikan ukuran, warna, kandungan, pembuangan sifat-sifat tanaman yang dapat menyebabkan produktivitas turun, daya tahan simpan tanaman setelah panen, atau untuk keindahan maupun mengembangkan keuninkan jenis tanaman.
+
+Pada pemuliaan secara konvensional, pengembangan tanaman yang unggul diperoleh dari hasil persilangan varietas tanaman yang unggul yang tanpak secara morfologi/fenotip. Namun informasi yang diperoleh dari fenotip seringkali memberikan hasil yang kurang konsisten. Karena karakteristik yang tanpak tidak menggambarkan informasi secara genetic tapi sudah dipengaruhi oleh faktor lingkungan. 
+
+Oleh karena itu perlu dilakukan proses seleksi yang akurat terhadap karakter yang diinginkan dari suatu tanaman yang berdasarkan informasi gen yang mengendalikan karakter tersebut. Untuk kepentingan ini maka informasi genetik pada suatu tanaman khususnya yang berkaitan dengan suatu karakter menjadi sangatlah penting. Oleh karena itu identifikasi genetik secara molekuler sangat dibutuhkan dalam kegiatan pemuliaan ini agar memperoleh hasil yang tepat.
+
+Permasalah mengenai pemuliaan tanaman secara konvensional telah mendapat titik terang dengan ditemukannya markah/penanda molekuler. Suatu pendanda (marker) memuat informasi suatu sifat dari tanaman yang berasosiasi dengan susunan genotip tertentu. Marker tersebut dapat dijadikan sebagai informasi untuk mengidentifikasi letak gen yang signifikan mempengaruhi suatu sifat tanaman, dengan menggunakan metode *Quantitative Trait Locus* (QTL). Adapun beberapa marker yang cukup umum dan sudah banyak 
+
+## Marker-Assested Selection
+
+## Single Nucleotide Polymorphisms (SNPs)
 
 # QTL Mapping for Disease Resistance
 
@@ -46,7 +59,6 @@ summary(dataset)
 ```
 
 Diatas merupakan hasil ringkasan dari data. Populasi yang digunakan hasil persilangan tipe F2 *intercross* yang menghasilkan individu sebanyak 296 jenis. Data fenotipe menjelaskan tentang skoring ketahanan tanaman cabai terhadap *Phytophthora capsici*. Interval skornya diantara 0 sampai dengan 5. Tanaman cabai yang memiliki resisten terhadap *Phytophthora capsici* akan diberi skor 0, sedangkan yang rentan akan diberi skor 5. Sebanyak 100% data fenotipe berhasil terbaca, artinya tidak ada data yang hilang (NA). Pada data ini hanya menggunakan 1 kromosom yang diamati, yaitu kromosom ke-5 dari total 11 kromosom cabai.
-
 
 ```{r}
 ggplot(data = dataset$pheno, mapping = aes(x = dataset$pheno$Score)) +
@@ -100,7 +112,6 @@ fviz_dend(
 )
 ```
 
-
 Berdasarkan hasil clusternig di atas, dapat diketahui individu cabai dengan nomor 173, 185, 202, 247, 251, 291, 14, dan 216 berada pada satu cluster yang sama. Hal ini masuk akal, karena individu tersebut berasal dari tetua yang sama tipenya, sehingga karakteristiknya hampir sama. Jika antar individu tidak memiliki kemiripan genotipe, maka akan terpisah jauh atau berada pada branch yang berbeda.
 
 ### QTL Analysis
@@ -127,9 +138,8 @@ datalink_2 <- sim.geno(dataset_rf, step=1, error.prob=0.001)
 out.imp <- scanone(datalink_2, method="imp")
 ```
 
-
-
 ```{r}
+
 par(mfrow=c(1,1))
 plot(out.imp, out.hk, out.mr, ylab="LOD Score",
  lty = c(1,1,2), col = c("black", "blue", "red"),
@@ -144,10 +154,10 @@ HK"),
 
 ```
 
-
 Pemilihan motode terbaik berdasarkan skor *panelized LOD* yang tertinggi. Hasilnya, metode Imputation memperoleh LOD yang tertinggi yaitu 11.53. Selanjutnya, mencari formula regresi menggunakan metode imputation:
 
 ```{r}
+
 dataqtl.step0 <- sim.geno(
   cross = dataset_rf, step = 0, error.prob = 0.001,
   map.function = "haldane", n.draws = 296
@@ -156,12 +166,15 @@ dataqtl.step0 <- sim.geno(
 ```
 
 ```{r eval=FALSE}
+
 set.seed(1)
 outsw1 <- stepwiseqtl(dataqtl.step0, verbose = TRUE, method = "imp")
 outsw1
+
 ```
 
 ```{r}
+
 outsw1 <- readRDS(file = "assets/05-bioinformatics/outsw1.RDS")
 chr <- c(5,5,5)
 pos <- c(117.34, 159.31, 256.48)
@@ -185,11 +198,13 @@ Keterangan:
 Jika hasil summary model diatas diringkas kedalam bentuk tabel, maka informasinya seperti berikut:
 
 ```{r}
+
 tibble(
   Variabel = c("Q1", "Q2", "Q3", "Q1:Q2"),
   `Kode Marka` = c("PMMCB81", "PMMCB34", "MCA32", "PMMCB81 : PMMCB34"),
   `% Var` = c(18.25, 13.36, 2.79, 12.62)
 )
+
 ```
 
 Kolom pertama dan kedua menjelaskan tentang simbol model QTL beserta nama markanya. Kolom persentase variansi (%var) adalah estimasi dari variansi fenotipe yang dijelaskan oleh marka PMMCB81, PMMCB34, MCA32, dan interaksi marka PMMCB81:PMMCB34. Total %var sebesar 46,3%. Mempunyai makna bahwa kemampuan seluruh marka dalam model untuk menjelaskan skor variansi fenotipe ketahanan tanaman cabai terhadap bakteri *phytophthora capsici* adalah sebesar 46,3%, sedangkan sisanya dijelaskan oleh marka lain diluar penelitian.
@@ -197,6 +212,7 @@ Kolom pertama dan kedua menjelaskan tentang simbol model QTL beserta nama markan
 Visualisasi peta genetik dengan model QTL yang signifikan dan hasi skor LOD metode multiple imputation disajikan pada gambar dibawah ini.
 
 ```{r}
+
 par(mfrow=c(1,2))
 plot(outsw1, col="red", justdots = F, show.marker.names = F)
 plot(out.imp$lod, out.imp$pos, col="red", xlab = "LOD",
@@ -207,8 +223,8 @@ plot(out.imp$lod, out.imp$pos, col="red", xlab = "LOD",
 legend("bottomright", legend="Multiple Imputation",
  col="red", lty=1, cex=0.7, lwd = 2,
  title = "Metode", bty = "n")
-```
 
+```
 
 ## Conclusion
 
