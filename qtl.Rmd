@@ -2,14 +2,23 @@
 title: "Quantitative Trait Locus"
 author: "Ahmad Husain Abdullah"
 date: "5/8/2020"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+    number_section: true
+    theme: united
+    highlight: breezedark
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  fig.align = "center"
 )
 ```
 
@@ -17,36 +26,60 @@ knitr::opts_chunk$set(
 
 Pemuliaan tanaman adalah suatu kegiatan mengubah susunan genetik individu tanaman untuk suatu tujuan seperti perbaikin mutu tanaman. Tujuan semacam itu dapat berupa, perbaikan ukuran, warna, kandungan, pembuangan sifat-sifat tanaman yang dapat menyebabkan produktivitas turun, daya tahan simpan tanaman setelah panen, atau untuk keindahan maupun mengembangkan keuninkan jenis tanaman.
 
-Pada pemuliaan secara konvensional, pengembangan tanaman yang unggul diperoleh dari hasil persilangan varietas tanaman yang unggul yang tanpak secara morfologi/fenotip. Namun informasi yang diperoleh dari fenotip seringkali memberikan hasil yang kurang konsisten. Karena karakteristik yang tanpak tidak menggambarkan informasi secara genetic tapi sudah dipengaruhi oleh faktor lingkungan. 
+Pada pemuliaan secara konvensional, pengembangan tanaman yang unggul diperoleh dari hasil persilangan varietas tanaman yang unggul yang tanpak secara morfologi/fenotip. Namun informasi yang diperoleh dari fenotip seringkali memberikan hasil yang kurang konsisten. Karena karakteristik yang tanpak tidak menggambarkan informasi secara genetic tapi sudah dipengaruhi oleh faktor lingkungan.
 
 Oleh karena itu perlu dilakukan proses seleksi yang akurat terhadap karakter yang diinginkan dari suatu tanaman yang berdasarkan informasi gen yang mengendalikan karakter tersebut. Untuk kepentingan ini maka informasi genetik pada suatu tanaman khususnya yang berkaitan dengan suatu karakter menjadi sangatlah penting. Oleh karena itu identifikasi genetik secara molekuler sangat dibutuhkan dalam kegiatan pemuliaan ini agar memperoleh hasil yang tepat.
 
-Permasalah mengenai pemuliaan tanaman secara konvensional telah mendapat titik terang dengan ditemukannya markah/penanda molekuler. Suatu pendanda (marker) memuat informasi suatu sifat dari tanaman yang berasosiasi dengan susunan genotip tertentu. Marker tersebut dapat dijadikan sebagai informasi untuk mengidentifikasi letak gen yang signifikan mempengaruhi suatu sifat tanaman, dengan menggunakan metode *Quantitative Trait Locus* (QTL). Adapun beberapa marker yang cukup umum dan sudah banyak 
-
-## Marker-Assested Selection
+Permasalah mengenai pemuliaan tanaman secara konvensional telah mendapat titik terang dengan ditemukannya markah/penanda molekuler. Suatu pendanda (marker) memuat informasi suatu sifat dari tanaman yang berasosiasi dengan susunan genotip tertentu. Penggunakan marka molukuler berupa *Deoxyribonucleic acid* (DNA) digunakan seiring dengan perkembangan ilmu pengetahuan tentang biologi molekuler. Kelebihan marka DNA adala dapat digunakan untuk jumlah yang tidak terbatas dan dapat mencakup seluruh genom tanaman, serta memiliki kemampuan tinggi untuk menggambarkan keragaman karakter antar individu[\^1].
 
 ## Single Nucleotide Polymorphisms (SNPs)
 
-# QTL Mapping for Disease Resistance
+*Single Nucleotide Polymorphisms* (SNPs) adalah perubahan kecil pada genetik atau variasi yang dapat terjadi dalam sekuen DNA makhluk hidup. Kode genetik ditentukan oleh empat nukleotida A (Adenin), C (Sitosin), T (Timin), dan G (Guanin). Variasi SNPs terjadi apabila satu nukleotide seperti A menggantikan nukleotide yang lainnya seperti C, G, atau T. Sebuah contoh dari SNPs adalah perubahan segmen DNA yang mulanya AAGGTTA menjadi ATGGTTA, dimana basa A dalam sekuen keuda diganti dengan T [\^2].
 
-## Backgorund
+```{r echo=FALSE, fig.cap="Fig 1. Ilustrasi Single Nucleotide Polymorphism"}
+knitr::include_graphics(path = "assets/snp.png")
+```
 
-Ketahanan pangan merupakan salah satu prioritas utama dalam Rancangan Pembangunan Jangka Panjang Menengah Nasional. Ketersediaan pangan strategis sangat diandalkan dalam upaya mewujudkan ketahanan pangan. Pangan strategis dapat diartikan sebagai komoditas pangan yang terkait dengan kebutuhan sebagian besar masyarakat. Salah satu contoh komoditas pangan strategis menurut kementrian pertanian Indonesia adalah Cabai. Sering kali petani cabai mengalami gagal panen dikarenakan serangan penyakit bakteri dan jamur pada akar dan daun. Salah satu penyakit yang dominan yang menyerang tanaman cabai adalah jamur *Phytophthora capsici*. 
+Sebagian kecil SNPs menjadi penanda biologis untuk penentuan suatu penyakit pada manusia. Karena SNPs tersebut terletak pada gen yang ditemukan terkait dengan penyakit tertentu. SNPs yang diasosiasikan dengan suatu penyakit dapat digunakan untuk mencari dan mengisolasi gen penyebab penyakit tersebut [\^2]. Selain itu SNPs juga telah diterapkan untuk berbagai tujuan genetik, seperti:
 
-Perlu dilakukan sebuah penelitian untuk mengetahui letak gen yang mempengaruhi sifat rentan terhadap jamur *Phytophthora capsici*. Beberapa hasil penelitian telah membuktikan analisis *Quantitative Trait Locus* sukses mengidentifikasi sifat pada tanaman. Maka dari itu sebagai bahan kajian peningkatan kualitas tanaman cabai, menggunakan data sekuen DNA yang sudah tersedia, dengan pendekatan metode QTL akan diidentifikasi letak gen yang berhubungan secara signifikan terhadap penyakit *Phytophthora capsici*.
+-   pemetaan penyakit kompeks dan asosiasinnya, forensik, dan identifikasi individu hewan dan analisa parentalnya
+-   ketahanan terhadap patogen
+-   asosiasinya gen dengan karakter ekonomis sebuah tanaman.
+
+# Quantitative Trait Locus (QTL)
+
+*Quantitative Trait Locus* adalah lokasi kromosom individu dimana terdapat gen yang berasosiasi terhadap variasi sifat kuantitatif. Contoh sifat kuantitait yaitu tingkat kolesterol, hasil tanaman, ukuran telur dan contoh lainnya yang merupakan variabel kontinyu. Kebanyakan sifat penting kuantitatif pada individu dikontrol oleh sejumlah gen. Beberapa gen yang memiliki pengaruh besar pada lokasi QTL disebut dengan gen mayor. Gen mayor dapat menyebabkan perbedaan sifat karakteristik tiap individu. Sedangkan gen yang mempunyai pengaruh kecil terhadap sifat individu disebut dengan polygen. [\^3]
+
+## QTL Mapping
+
+Tahap pertama yang perlu dilakukan untuk mengetahui sifat genetik yang komplek, yaitu perlu memanfaatkan keragaman genetik yang luas pada individu yang diamati dengan melihat peta keterpautan genetik (*genetic linkage map*).
+
+```{r echo=FALSE, fig.cap="Fig 2. Ilustrasi qtl mapping", out.width="70%"}
+knitr::include_graphics(path = "assets/qtl-mapping.png")
+```
+
+Jarak antara dua gen dinyatakan dalam cM (*centi Morgan*). Peta genetik dengan kerapatan yang tinggi dapat dijadikan sebagai *marked-based selection* untuk mempercepat proses pemuliaan tanaman.
 
 ## Modelling Analysis
+
+Dasar masalah: Ketahanan pangan merupakan salah satu prioritas utama dalam Rancangan Pembangunan Jangka Panjang Menengah Nasional. Ketersediaan pangan strategis sangat diandalkan dalam upaya mewujudkan ketahanan pangan. Pangan strategis dapat diartikan sebagai komoditas pangan yang terkait dengan kebutuhan sebagian besar masyarakat. Salah satu contoh komoditas pangan strategis menurut kementrian pertanian Indonesia adalah Cabai. Sering kali petani cabai mengalami gagal panen dikarenakan serangan penyakit bakteri dan jamur pada akar dan daun. Salah satu penyakit yang dominan yang menyerang tanaman cabai adalah jamur *Phytophthora capsici*.
+
+```{r echo=FALSE, fig.cap="Fig 3. Scoring tingkat ketahanan tanaman cabai terhadap *Pytophora capsici*", out.width="80%"}
+knitr::include_graphics(path = "assets/phenotype.png")
+```
+
+Perlu dilakukan sebuah penelitian untuk mengetahui letak gen yang mempengaruhi sifat rentan terhadap jamur *Phytophthora capsici*. Beberapa hasil penelitian telah membuktikan analisis *Quantitative Trait Locus* sukses mengidentifikasi sifat pada tanaman. Maka dari itu sebagai bahan kajian peningkatan kualitas tanaman cabai, menggunakan data sekuen DNA yang sudah tersedia, dengan pendekatan metode QTL akan diidentifikasi letak gen yang berhubungan secara signifikan terhadap penyakit *Phytophthora capsici*.
 
 ### Import Data
 
 ```{r}
-pacman::p_load("ASMap","qtlcharts","qtl", "ggplot2","ggpubr","ggdendro", "dendextend", "factoextra", "car", "igraph")
+pacman::p_load("ASMap","qtlcharts","qtl", "ggplot2","ggpubr","ggdendro", "dendextend", "factoextra", "car", "igraph", "tidyverse")
 ```
 
 ```{r message=FALSE}
 dataset <- read.cross(
   format = "csv", 
-  dir = "assets/05-bioinformatics/",
+  dir = "assets",
   file ="data.csv", 
   sep = ";", 
   genotypes = c("a","h","b"),
@@ -74,7 +107,7 @@ ggplot(data = dataset$pheno, mapping = aes(x = dataset$pheno$Score)) +
 shapiro.test(dataset$pheno$Score)
 ```
 
-Berdasarkan kurva dan uji hipotesis, maka keputusannya data fenotipe tidak berdistribusi normal (distribusi bimodal). Menurut penelitian yang dilakukan [**Margawati (2015)**](https://repository.ipb.ac.id/handle/123456789/41318) ketika kurva fenotipe menunjukkan distribusi bimodal, maka itu merupakan indikasi terdapat gen mayor (yang signifikan mempengaruhi). 
+Berdasarkan kurva dan uji hipotesis, maka keputusannya data fenotipe tidak berdistribusi normal (distribusi bimodal). Menurut penelitian yang dilakukan [**Margawati (2015)**](https://repository.ipb.ac.id/handle/123456789/41318) ketika kurva fenotipe menunjukkan distribusi bimodal, maka itu merupakan indikasi terdapat gen mayor (yang signifikan mempengaruhi).
 
 #### Exploratory Data Analysis
 
@@ -175,7 +208,7 @@ outsw1
 
 ```{r}
 
-outsw1 <- readRDS(file = "assets/05-bioinformatics/outsw1.RDS")
+outsw1 <- readRDS(file = "assets/model/outsw1.RDS")
 chr <- c(5,5,5)
 pos <- c(117.34, 159.31, 256.48)
 qtl <- makeqtl(dataqtl.step0, chr, pos)
@@ -192,8 +225,8 @@ $$Formula: y \sim Q1 + Q2 + Q3 + Q1:Q2 $$
 
 Keterangan:
 
-* y = Skor fenotipe ketahanan terhadap penyakit *phytophthora capsici*
-* Qi = Marka QTL ke-i
+-   y = Skor fenotipe ketahanan terhadap penyakit *phytophthora capsici*
+-   Qi = Marka QTL ke-i
 
 Jika hasil summary model diatas diringkas kedalam bentuk tabel, maka informasinya seperti berikut:
 
@@ -207,7 +240,9 @@ tibble(
 
 ```
 
-Kolom pertama dan kedua menjelaskan tentang simbol model QTL beserta nama markanya. Kolom persentase variansi (%var) adalah estimasi dari variansi fenotipe yang dijelaskan oleh marka PMMCB81, PMMCB34, MCA32, dan interaksi marka PMMCB81:PMMCB34. Total %var sebesar 46,3%. Mempunyai makna bahwa kemampuan seluruh marka dalam model untuk menjelaskan skor variansi fenotipe ketahanan tanaman cabai terhadap bakteri *phytophthora capsici* adalah sebesar 46,3%, sedangkan sisanya dijelaskan oleh marka lain diluar penelitian.
+Kolom pertama dan kedua menjelaskan tentang simbol model QTL beserta nama markanya. Kolom persentase variansi (%var) adalah estimasi dari variansi fenotipe yang dijelaskan oleh marka `PMMCB81`, `PMMCB34`, `MCA32`, dan interaksi marka `PMMCB81`:`PMMCB34`. Total %var sebesar 46,3%. Mempunyai makna bahwa kemampuan seluruh marka dalam model untuk menjelaskan skor variansi fenotipe ketahanan tanaman cabai terhadap bakteri *phytophthora capsici* adalah sebesar 46,3%, sedangkan sisanya dijelaskan oleh marka lain diluar penelitian.
+
+Pada kolom yang terakhir adalah *p-value* yang digunakan untuk menerima dan menolak hipotesis. Hipotesis awal (H0) tidak ada pengaruh marka terhadap variansi fenotipe, sedangkan hipotesis alternatifnya (Ha) yaitu terdapat pengaruh marka terhadap variansi fenotipe. Daerah kritis H0 ditolak jika *p-value \< α (0,05)*. Berdasarkan Tabel di atas seluruh variabel nampak memiliki *p-value \< α (0,05)* sehingga keputusannya adalah tolak H0. Sehingga, marka `PMMCB81`, `PMMCB34`, `MCA32`, dan interaksi marka `PMMCB81`:`PMMCB34`mempunyai pengaruh yang nyata terhadap skoring fenotipe.
 
 Visualisasi peta genetik dengan model QTL yang signifikan dan hasi skor LOD metode multiple imputation disajikan pada gambar dibawah ini.
 
@@ -228,4 +263,5 @@ legend("bottomright", legend="Multiple Imputation",
 
 ## Conclusion
 
-Hasil model QTL yang terbentuk dengan ($\alpha$ = 5%) formulanya y ~ Q1 + Q2 + Q3 + Q1:Q2 yang secara urut merupakan penanda sekuen (marka) dengan kode PMMCB81, PMMCB34, MCA32, dan interaksi PMMCB81 x PMMCB34. Skor LOD masing-masing model sebesar 5,80 (PMMCB81), 2,74 (PMMCB34) dan 8,6 (MCA32). Model QTL tersebut mampu menjelaskan 46,3% variansi skor fenotipe ketahanan tanaman cabai terhadap jamur *phytophthora capsici*. Rekomendasi yang dapat diberikan, perlu dilakukan investigasi lebih lanjut pada ketiga marka tersebut untuk memperbaiki atau mengembangkan kultivar tanaman cabai yang resisten terhadap penyakit layu yang disebabkan oleh jamur *phytophthora capsici*.
+Hasil model QTL yang terbentuk dengan ($\alpha$ = 5%) formulanya y \~ Q1 + Q2 + Q3 + Q1:Q2 yang secara urut merupakan penanda sekuen (marka) dengan kode PMMCB81, PMMCB34, MCA32, dan interaksi PMMCB81 x PMMCB34. Skor LOD masing-masing model sebesar 5,80 (PMMCB81), 2,74 (PMMCB34) dan 8,6 (MCA32). Model QTL tersebut mampu menjelaskan 46,3% variansi skor fenotipe ketahanan tanaman cabai terhadap jamur *phytophthora capsici*. Rekomendasi yang dapat diberikan, perlu dilakukan investigasi lebih lanjut pada ketiga marka tersebut untuk memperbaiki atau mengembangkan kultivar tanaman cabai yang resisten terhadap penyakit layu yang disebabkan oleh jamur *phytophthora capsici*.
+
